@@ -1,0 +1,52 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5)50%, rgba(0, 0, 0, 0.5)50%), url(full.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+}
+
+
+* h2 {
+    margin-left: 400px;
+}
+
+.script {
+    padding-top: 20px;
+    margin-left: 50px;
+}
+
+.rule {
+    margin-left: 400px;
+}
+
+.guess_number {
+    margin-left: 900px;
+}
+
+.input_guess {
+    margin-left: 500px;
+}
+
+.home {
+    margin-left: 20px;
+    padding-bottom: 20px;
+}
+
+.user_name {
+    margin-left: 20px;
+    padding-bottom: 20px;
+}
+
+.result {
+    margin-left: 500px;
+}
+
+.result2 {
+    margin-left: 500px;
+}

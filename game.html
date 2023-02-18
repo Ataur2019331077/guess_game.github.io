@@ -1,0 +1,83 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <title>My Web with Py-script</title>
+    <link rel="stylesheet" href="style_game.css">
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+</head>
+<body>
+    <div class="main">
+
+        <h2 style="color: greenyellow;">Welcome to Guessing Game!</h2>
+
+        <div class="home"><a href="index.html"><button class="btn btn-primary">Home</button></a></div>
+
+        <div class="user_name">
+            <h3 style="color: dimgrey;">User Name : <span id="user_name" style="color: green;"></span></h3>
+        </div>
+        <script>
+            const f_name=localStorage.getItem('user_name');
+            document.getElementById('user_name').textContent = f_name;
+        </script>  
+        
+        <div class="rule"><h3 style="color: slategrey;">Guess the random number (1-10)</h3></div>
+        <div class="guess_number"><b><p id="guess_num" style="color: rgb(11, 70, 221);">Number of guesses : 0</p></b></div>
+
+        <div class="input_guess"><input type="text" id="guess" name="guess" /><br/><br>
+            <input type="button" id="guessBtn" value="Guess " class="btn btn-success"/>
+            <input type="button" id="restartBtn" value=" Restart" class="btn btn-danger"/>
+        </div>
+        <br><br>
+        <div class="result"><b><p id="result" style="color: crimson;"></p></b><br><br></div>
+
+        <py-script>
+            from js import document
+            from pyodide import create_proxy
+            import random
+
+            number = random.randrange(1, 10)
+            guess_num = 0
+
+            def restart(e):
+                global number, guess_num
+                number = random.randrange(1, 10)
+                guess_num = 0
+                pyscript.write("result", "")
+                pyscript.write("guess_num", "Number of guesses : 0")
+            
+            
+            def guess(e):
+                global guess_num
+                guess_num += 1
+                inp = Element('guess').element
+                text = inp.value
+                inp.value = ""
+                if(text==str(number) and guess_num==1):
+                    pyscript.write("result", "Congratulations! You took " + str(guess_num) + " guess")
+                elif(text==str(number)):
+                    pyscript.write("result", "Congratulations! You took " + str(guess_num) + " guesses")
+                else:
+                    pyscript.write("result", "Try Again!")
+                
+                pyscript.write("guess_num", "Number of guesses : " + str(guess_num))
+            
+            
+            guess_proxy = create_proxy(guess)
+            guess_button = document.getElementById("guessBtn")
+            guess_button.addEventListener("click", guess_proxy)
+
+            restart_proxy = create_proxy(restart)
+            restart_button = document.getElementById("restartBtn")
+            restart_button.addEventListener("click", restart_proxy)
+
+        </py-script>
+
+    </div>
+    
+</body>
+</html>
